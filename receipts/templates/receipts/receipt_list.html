@@ -1,17 +1,30 @@
 {% extends 'receipts/base.html' %}
 
 {% block content %}
-<h1>Receipt list</h1>
+<h1>Receipts</h1>
+<div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Name</th>
+					<th scope="col">Date Receipt</th>
+					<th scope="col">Vendor Name</th>
+					<th scope="col">Total Amount</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for receipt in receipt_list %}
+				<tr>
+					<td>{{ receipt.name }}</td>
+					<td>{{ receipt.date_receipt }}</td>
+					<td>{{ receipt.vendor_name }}</td>
+					<td>{{ receipt.amount_total }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    </div>
+</div>
 <br/>
-{% for receipt in receipt_list %}
-{{ receipt.name }}
-<br/>
-{{ receipt.date_receipt }}
-<br/>
-{{ receipt.vendor_name }}
-<br/>
-{{ receipt.amount_total }}
-<br/>
-<br/>
-{% endfor %}
 {% endblock %}
