@@ -1,2 +1,17 @@
+{% extends 'receipts/base.html' %}
+
+{% block content %}
 <h1>Receipt list</h1>
-{{ receipt_list }}
+<br/>
+{% for receipt in receipt_list %}
+{{ receipt.name }}
+<br/>
+{{ receipt.date_receipt }}
+<br/>
+{{ receipt.vendor_name }}
+<br/>
+{{ receipt.amount_total }}
+<br/>
+<br/>
+{% endfor %}
+{% endblock %}
