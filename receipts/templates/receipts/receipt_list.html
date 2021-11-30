@@ -1,6 +1,7 @@
 {% extends 'receipts/base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <h1>Receipts</h1>
 <div>
     <div class="table-responsive">
@@ -26,5 +27,7 @@
 		</table>
     </div>
 </div>
-<br/>
+{% else %}
+	Please <a href="{% url 'login' %}">login</a> to view this page.
+{% endif %}
 {% endblock %}

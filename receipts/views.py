@@ -7,14 +7,17 @@ def home(request):
     return render(request, 'receipts/home.html', {})
 
 def receipt_list(request):
-    receipt_list = Receipt.objects.all().order_by('-id')
+    receipt_list = Receipt.objects.all().filter(account_user=request.user.id).order_by('-id')
     return render(request, 'receipts/receipt_list.html', {'receipt_list':receipt_list})
 
 def receipt_add(request):
     if request.method == "POST":
         form = ReceiptForm(request.POST)
         if form.is_valid():
-            form.save()
+            #form.save()
+            receipt = form.save(commit=False)
+            receipt.account_user = request.user.id
+            receipt.save()
             messages.success(request, ("Receipt Addition Successful!"))
             return redirect('receipt-list')
         else:

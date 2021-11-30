@@ -5,6 +5,7 @@ class Receipt(models.Model):
     date_receipt = models.DateTimeField('Date Receipt')
     vendor_name = models.CharField('Vendor Name', max_length=64)
     amount_total = models.FloatField('Total Amount')
-    
+    account_user = models.IntegerField("Account User", blank=False)
+
     def __str__(self):
         return self.name

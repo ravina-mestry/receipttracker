@@ -1,6 +1,7 @@
 {% extends 'receipts/base.html' %}
 
 {% block content %}
+{% if user.is_authenticated %}
 <h1>Add Receipt</h1>
 <div>
     <form action="" method="post">
@@ -11,5 +12,7 @@
 		</div>
     </form>
 </div>
-<br/>
+{% else %}
+	Please <a href="{% url 'login' %}">login</a> to view this page.
+{% endif %}
 {% endblock %}
