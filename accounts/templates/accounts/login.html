@@ -1,0 +1,21 @@
+{% extends 'receipts/base.html' %}
+
+{% block content %}
+	<h1>Login</h1>
+	<div>
+		<form action="" method="post">
+			{% csrf_token %}
+			<div class="mb-3">
+				<label>Username:</label>
+				<input type="text" class="form-control" name="username" autofocus />
+			</div>
+			<div class="mb-3">
+				<label>Password:</label>
+				<input type="password" class="form-control" name="password" />
+			</div>
+			<div class="d-grid">
+				<input type="submit" value="Login" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+{% endblock %}
