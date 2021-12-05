@@ -2,9 +2,9 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Welcome to Receipt Tracker project page!</h1>
+    <h1>Welcome to Receipt Tracker project page!</h1>
 {% else %}
-<h1>Welcome to Receipt Tracker project page!</h1>
-Please <a href="{% url 'login' %}">login</a> to Receipt Tracker.
+    <h1>Welcome to Receipt Tracker project page!</h1>
+    Please <a href="{% url 'login' %}">login</a> to Receipt Tracker.
 {% endif %}
 {% endblock %}

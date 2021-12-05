@@ -10,5 +10,5 @@ class ReceiptForm(ModelForm):
             'name': forms.TextInput(attrs={'class':'form-control'}),
             'date_receipt': forms.TextInput(attrs={'class':'form-control'}),
             'vendor_name': forms.TextInput(attrs={'class':'form-control'}),
-            'amount_total': forms.NumberInput(attrs={'step':'0.01', 'class':'form-control'}),
+            'amount_total': forms.NumberInput(attrs={'step':'0.01', 'min':'0.10', 'class':'form-control'}),
         }
