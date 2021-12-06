@@ -1,0 +1,25 @@
+{% extends 'receipts/base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+	<h1>Upload Receipt</h1>
+	<div>
+		<form action="" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<p>
+				<label>Receipt Image:</label>
+				{% if submitted %}
+					{{ receiptFile.name }} {{ receiptFile.size }}
+				{% endif %}
+				<input type="file" name="receiptFile" accept=".jpg, .jpeg, .png" class="form-control" required />
+			</p>
+			<div class="d-grid">
+				<input type="submit" value="Submit" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+	<br/><br/><br/>
+{% else %}
+	Please <a href="{% url 'login' %}">login</a> to view this page.
+{% endif %}
+{% endblock %}

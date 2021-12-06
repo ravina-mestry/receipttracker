@@ -9,3 +9,8 @@ class Receipt(models.Model):
 
     def __str__(self):
         return self.name
+
+class ReceiptFile(models.Model):
+    upload_file_name = models.CharField('Upload File Name', max_length=64)
+    account_user = models.IntegerField("Account User", blank=False)
+    file_name = models.CharField('File Name', max_length=64)
