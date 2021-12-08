@@ -70,7 +70,9 @@ def receipt_upload(request):
         receiptFileS3Url = aws.s3_presigned_url('s3-bucket-receipttracker', receipt.name)
         #print(receiptFileS3Url)
 
+        form = ReceiptForm(instance=receipt)
+
         messages.success(request, ("Receipt file uploaded successfully"))
-        return render(request, 'receipts/receipt_upload.html', {'receiptFileS3Url':receiptFileS3Url})
+        return render(request, 'receipts/receipt_add.html', {'form':form, 'receiptFileS3Url':receiptFileS3Url})
 		
     return render(request, 'receipts/receipt_upload.html', {})
