@@ -9,13 +9,12 @@ def home(request):
     return render(request, 'receipts/home.html', {})
 
 def receipt_list(request):
-    #receipt_list = Receipt.objects.all().filter(account_user=request.user.id).order_by('-id')
-    receipt_list = Receipt.objects.all()
-    p = Paginator(Receipt.objects.all(), 20)
+    receipt_list = Receipt.objects.all().filter(account_user=request.user.id).order_by('-id')
+    p = Paginator(receipt_list, 10)
     page = request.GET.get('page')
     receipt_page = p.get_page(page)
     #return render(request, 'receipts/receipt_list.html', {'receipt_list':receipt_list})
-    return render(request, 'receipts/receipt_list.html', {'receipt_list':receipt_list, 'receipt_page':receipt_page})
+    return render(request, 'receipts/receipt_list.html', {'receipt_page':receipt_page})
 
 def receipt_add(request):
     if request.method == "POST":

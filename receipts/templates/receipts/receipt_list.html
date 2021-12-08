@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{% for receipt in receipt_list %}
+				{% for receipt in receipt_page %}
 				<tr>
 					<td>{{ receipt.name }}</td>
 					<td>{{ receipt.date_receipt }}</td>
@@ -26,10 +26,20 @@
 			</tbody>
 		</table>
     </div>
-    <br/><br/>
-{{ receipt_page }}<br/>
-Has Previous: {{ receipt_page.has_previous }}<br/>
-Has Next:  {{ receipt_page.has_next }}
+	<hr/>
+
+	{% if receipt_page.has_previous %}
+		<a href="?page=1">&laquo First</a>
+		<a href="?page={{ receipt_page.previous_page_number }}">Previous</a>
+	{% endif %}
+
+	Page {{ receipt_page.number }} of {{ receipt_page.paginator.num_pages }}
+
+	{% if receipt_page.has_next %}
+		<a href="?page={{ receipt_page.next_page_number }}">next</a>
+		<a href="?page={{ receipt_page.paginator.num_pages }}">Last &raquo </a>
+	{% endif %}
+
 </div>
 {% else %}
 	Please <a href="{% url 'login' %}">login</a> to view this page.
