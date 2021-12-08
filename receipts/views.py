@@ -4,6 +4,7 @@ from .models import Receipt, ReceiptFile
 from .forms import ReceiptForm
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
+from . import aws
 
 def home(request):
     return render(request, 'receipts/home.html', {})
@@ -52,11 +53,24 @@ def receipt_upload(request):
             receiptFileDb.file_name = 'Receipt-' + str(receiptFileDb.account_user) + '-' + str(receiptFileDb.id) + '.png'
         receiptFileDb.save()
 
-        fss = FileSystemStorage()
-        receiptFileSaved = fss.save(receiptFileDb.file_name, receiptFile)
-        fileUrl = fss.url(receiptFileSaved)
+        receipt = Receipt()
+        receipt.name = receiptFileDb.file_name
+        receipt.date_receipt = '2021-12-08 09:00'
+        receipt.vendor_name = ''
+        receipt.amount_total = 0.0
+        receipt.account_user = request.user.id
+
+#        fss = FileSystemStorage()
+#        receiptFileSaved = fss.save(receiptFileDb.file_name, receiptFile)
+#        fileUrl = fss.url(receiptFileSaved)
+
+        s3Reseponse = aws.s3_upload_fileobj(receiptFile, 's3-bucket-receipttracker', receipt.name)
+        #print(s3Reseponse)
+        
+        receiptFileS3Url = aws.s3_presigned_url('s3-bucket-receipttracker', receipt.name)
+        #print(receiptFileS3Url)
 
         messages.success(request, ("Receipt file uploaded successfully"))
-        return render(request, 'receipts/receipt_upload.html', {})
+        return render(request, 'receipts/receipt_upload.html', {'receiptFileS3Url':receiptFileS3Url})
 		
     return render(request, 'receipts/receipt_upload.html', {})
