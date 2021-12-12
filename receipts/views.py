@@ -4,7 +4,7 @@ from .models import Receipt, ReceiptFile
 from .forms import ReceiptForm
 from django.core.files.storage import FileSystemStorage
 from django.core.paginator import Paginator
-from aws_rekognition_parser_pkg import aws_rekognition_parser
+#from aws_rekognition_parser_pkg import aws_rekognition_parser
 from . import aws
 
 def home(request):
@@ -74,8 +74,9 @@ def receipt_upload(request):
         rekognitionResponse = aws.rekognition_detect_text('s3-bucket-receipttracker', receipt.name)
         print(rekognitionResponse)
         
-        vendorNameList = ['tesco', 'dunnes', 'lidl', 'aldi', 'supervalu', 'spar', 'centra', 'mace']
-        receiptText = aws_rekognition_parser.parse_rekognition_response_receipt_text(rekognitionResponse, vendorNameList)
+        vendorNameList = ['Tesco', 'Dunnes', 'Lidl', 'Aldi', 'SuperValu', 'Spar', 'Centra', 'Mace']
+        #receiptText = aws_rekognition_parser.parse_rekognition_response_receipt_text(rekognitionResponse, vendorNameList)
+        receiptText = aws.parse_rekognition_response_receipt_text(rekognitionResponse, vendorNameList)
         
         receipt.vendor_name = receiptText['vendorName']
         receipt.amount_total = receiptText['amountTotal']
