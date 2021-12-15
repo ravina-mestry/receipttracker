@@ -1,7 +1,11 @@
 import logging
 import boto3
+import json
 from botocore.exceptions import ClientError
 
+# This file contains all the aws functions using boto3.
+
+# s3_list_buckets function returns the list of buckets in s3 for the aws account
 def s3_list_buckets():
     s3 = boto3.client('s3')
     try:
@@ -11,6 +15,7 @@ def s3_list_buckets():
         return None
     return s3Response
 
+# s3_upload_fileobj function uploads the file object to s3 with specified bucket name and object name
 def s3_upload_fileobj(file, s3BucketName, objectName):
     s3 = boto3.client('s3')
     try:
@@ -20,6 +25,7 @@ def s3_upload_fileobj(file, s3BucketName, objectName):
         return None
     return s3Reseponse
 
+# s3_presigned_url function returns a secure presigned url to grant time-limited permission to download the object without making them public
 def s3_presigned_url(s3BucketName, objectName):
     s3 = boto3.client('s3')
     try:
@@ -29,6 +35,7 @@ def s3_presigned_url(s3BucketName, objectName):
         return None
     return presigned_url
 
+# textract_analyze_expense function returns textract response for detect_document_text for the specified object name in specified s3 bucket
 def textract_analyze_expense(s3BucketName, objectName):
     textract = boto3.client('textract')
     try:
@@ -43,9 +50,12 @@ def textract_analyze_expense(s3BucketName, objectName):
         logging.error(e)
         return None
     return textractResponse
-    
+
+# rekognition_detect_text function returns rekognition response for detect_text for the specified object name in specified s3 bucket
+# it also converts rekognition response into json format and stores on s3 bucket.
 def rekognition_detect_text(s3BucketName, objectName):
     rekognition = boto3.client('rekognition', region_name='us-east-1')
+    s3 = boto3.client('s3')
     try:
         rekognitionResponse = rekognition.detect_text(
             Image={
@@ -54,43 +64,9 @@ def rekognition_detect_text(s3BucketName, objectName):
                     'Name': objectName
                 }
         })
+        
+        s3.put_object(Body=json.dumps(rekognitionResponse).encode(), Bucket=s3BucketName, Key=objectName + '-rekognitionresponse.json')
     except ClientError as e:
         logging.error(e)
         return None
     return rekognitionResponse
-
-def parse_rekognition_response_receipt_text(rekognitionResponse, vendorNameList):
-    
-    receiptText = dict()
-
-    isVendorName = False
-    numTotal = 0
-    isAmountTotal = False
-
-    for text in rekognitionResponse['TextDetections']:
-        print( text['Type'] + ' ' + text['DetectedText'].lower() + ' : ' + str(text['Confidence']))
-
-        if numTotal == 1:
-            numTotal = 2
-        
-        if not isVendorName:
-            for vendorName in vendorNameList:
-                if text['DetectedText'].lower() == vendorName.lower():
-                    receiptText['vendorName'] = vendorName
-                    isVendorName = True
-
-        if numTotal == 0:
-            if text['DetectedText'].lower() == 'total':
-                numTotal = 1
-        
-        if numTotal == 2:
-            numTotal = 0
-            amountTotal = text['DetectedText'].lower().replace('eur', '')
-            if amountTotal.replace('.', '').isnumeric():
-                receiptText['amountTotal'] = float(amountTotal)
-                isAmountTotal = True
-        
-        if isVendorName and isAmountTotal:
-            break
-
-    return receiptText

@@ -1,5 +1,6 @@
 from django.db import models
 
+# define database model for Receipt
 class Receipt(models.Model):
     name = models.CharField('Name', max_length=64)
     date_receipt = models.DateTimeField('Date Receipt')
@@ -10,6 +11,7 @@ class Receipt(models.Model):
     def __str__(self):
         return self.name
 
+# define database model for ReceiptFile
 class ReceiptFile(models.Model):
     upload_file_name = models.CharField('Upload File Name', max_length=64)
     account_user = models.IntegerField("Account User", blank=False)

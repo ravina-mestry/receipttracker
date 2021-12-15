@@ -3,8 +3,98 @@
 {% block content %}
 {% if user.is_authenticated %}
     <h1>Welcome to Receipt Tracker project page!</h1>
+    <br/>
+    <div class="row">
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#receipts</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_count }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#total spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_total }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#max spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_max }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#avg spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_avg }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#vendors</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ vendor_name_distinct_count }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <br/>
+    <h4>Last Month</h4>
+    <div class="row">
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#receipts</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_count_lm }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#total spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_total_lm }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#max spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_max_lm }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#avg spend</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ receipt_amount_avg_lm }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card border-primary">
+          <div class="card-header bg-primary text-white"><h4>#vendors</h4></div>
+          <div class="card-body text-primary">
+            <h5 class="card-title">{{ vendor_name_distinct_count_lm }}</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 {% else %}
     <h1>Welcome to Receipt Tracker project page!</h1>
     Please <a href="{% url 'login' %}">login</a> to Receipt Tracker.
+    <img src="https://ichef.bbci.co.uk/news/976/cpsprodpb/1548/production/_92084450_tillreceiptthinkstock.jpg" />
 {% endif %}
 {% endblock %}

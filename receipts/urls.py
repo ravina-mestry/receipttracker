@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+# define home and receipt list, add and upload urls and views
 urlpatterns = [
     path('', views.home, name="home"),
     path('receipt/list', views.receipt_list, name="receipt-list"),

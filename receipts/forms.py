@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from .models import Receipt
 
+# define ReceiptForm fields and their order to be shown on add receipt page.
 class ReceiptForm(ModelForm):
     class Meta:
         model = Receipt
